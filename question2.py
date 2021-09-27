@@ -61,9 +61,13 @@ if __name__ == "__main__":
         try:
             speciality = input("Enter the speciality : ")
             salary = int(input("Enter the salary : "))
-            query1 = "SELECT * FROM Doctor WHERE Speciality='{}' and Salary>={}".format(speciality.capitalize(), salary)
+            query1 = "SELECT * FROM Doctor WHERE Speciality=? and Salary>=?"
             print("******************************************************************************************")
-            print(pd.read_sql_query(query1, connection))
+            cursor1.execute(query1, (speciality, salary))
+            print("DoctorID\tDoctorName\tHospitalID\tJoiningDate\tSalary\tExperience")
+            for item in cursor1.fetchall():
+                print(
+                    '{}\t{}\t{}\t{}\t{}\t{}\t{}'.format(item[0], item[1], item[2], item[3], item[4], item[5], item[6]))
             print("******************************************************************************************")
         except ValueError:
             print("Invalid Value")
@@ -85,9 +89,10 @@ if __name__ == "__main__":
             print("Hospital Does not Exist!!!!")
         else:
             break
-    query2 = "SELECT Doctor_Name,Hospital_Name FROM Hospital,Doctor WHERE Hospital.Hospital_ID=Doctor.Hospital_ID and Hospital.Hospital_ID={}".format(
-        hospital_id)
+    query2 = "SELECT Doctor_Name,Hospital_Name FROM Hospital,Doctor WHERE Hospital.Hospital_ID=Doctor.Hospital_ID and Hospital.Hospital_ID=?"
+    cursor1.execute(query2, (hospital_id,))
     print(
         "List of Doctors along with their Hospital Name\n******************************************************************************************")
-    print(pd.read_sql_query(query2, connection))
+    for item in cursor1.fetchall():
+        print("{}\t{}".format(item[0], item[1]))
     print("******************************************************************************************")
