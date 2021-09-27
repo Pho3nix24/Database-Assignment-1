@@ -60,7 +60,7 @@ if __name__ == "__main__":
     while True:
         try:
             speciality = input("Enter the speciality : ")
-            salary = input("Enter the salary : ")
+            salary = int(input("Enter the salary : "))
             query1 = "SELECT * FROM Doctor WHERE Speciality='{}' and Salary>={}".format(speciality.capitalize(), salary)
             print("******************************************************************************************")
             print(pd.read_sql_query(query1, connection))
